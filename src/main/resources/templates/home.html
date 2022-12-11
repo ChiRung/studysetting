@@ -29,6 +29,7 @@
 
     .memoItem_contents {
       width: 80%;
+      cursor: pointer;
     }
 
     .memoItem_contents_main {
@@ -61,7 +62,7 @@
       <button onclick="location.href='/addMemo'">등록</button>
     </div>
     <div class="memoItem" th:each="m: ${memoList}">
-      <div class="memoItem_contents">
+      <div class="memoItem_contents" th:onclick="|location.href='@{/modify(memoId=${m.memoId})}'|">
         <b class="memoItem_contents_title" th:text="${m.title}">제목</b>
         <p class="memoItem_contents_main" th:text="${m.content}">본문</p>
       </div>

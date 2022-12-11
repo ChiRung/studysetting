@@ -12,6 +12,8 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -48,4 +50,16 @@ public class MemoEntity {
 		this.updateDate = updateDate;
 	}
 
+	public PatchMemo_req_dto to_PatchMemo_req_dto() {
+		return PatchMemo_req_dto.builder()
+					.memoId(memoId)
+					.title(title)
+					.content(content)
+					.build();
+	}
+
+	public void update(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
 }
