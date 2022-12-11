@@ -3,16 +3,20 @@ package com.studysetting.domain.memo;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
-// @RequiredArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @NoArgsConstructor
 @Getter
 @Entity(name = "memo")
@@ -28,8 +32,10 @@ public class MemoEntity {
 
 	private String content;
 
+	@CreatedDate
 	private Date createDate;
 
+	@LastModifiedDate
 	private Date updateDate;
 
 	@Builder

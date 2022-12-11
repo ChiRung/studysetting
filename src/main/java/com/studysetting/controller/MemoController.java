@@ -26,16 +26,14 @@ public class MemoController {
 
 	@GetMapping("/addMemo")
 	public String getAddMemoPage(Model model) {
-		PostMemo_res_dto postMemo_res_dto = new PostMemo_res_dto();
-		model.addAttribute("newMemo", postMemo_res_dto);
+		PostMemo_res_dto postMemo_res_dto = new PostMemo_res_dto(); // dto 인스턴스 만들고
+		model.addAttribute("newMemo", postMemo_res_dto); // 해당 dto 인스턴스에 데이터 넣어보내라고 addMemo페이지에 newMemo란 이름으로 전달한다.
 		return "addMemo";
 	}
 
 	@PostMapping("/addMemo") // 타임리프 쪽에서 이 컨트롤러 찌를꺼임
-	public String postMemo(@ModelAttribute("newMemo") PostMemo_res_dto postMemo_res_dto) {  // 여기에 res dto추가 @ModelAttribute("newMemo")
-		System.out.println("호옹이afafafafahf");
-		System.out.println(postMemo_res_dto.getTitle());
-		System.out.println(postMemo_res_dto.getContent());
+	public String postMemo(@ModelAttribute("newMemo") PostMemo_res_dto newMemo) {
+		repo.save(newMemo.toEntity());
 		return "redirect:/";
 	}
 }
