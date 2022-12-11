@@ -1,4 +1,4 @@
-package com.studysetting.domain.memo.dto;
+package com.studysetting.domain.memo;
 
 import java.util.Date;
 

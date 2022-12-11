@@ -7,9 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>메모 등록</title>
   <style>
-    input, textarea {
+    input,
+    textarea {
       min-height: 50px;
     }
+
     .container {
       display: flex;
       justify-content: center;
@@ -23,6 +25,7 @@
       max-width: 600px;
       margin: 100px 0px;
     }
+
     .mainInput {
       resize: none;
       height: 50%;
@@ -32,10 +35,11 @@
 </head>
 
 <body>
+  
   <div class="container">
-    <form class="addForm">
-      <input placeholder="제목 입력">
-      <textarea class="mainInput" placeholder="본문 입력" ></textarea>
+    <form class="addForm" method="POST" th:action="@{/addMemo}" th:object="${newMemo}">
+      <input placeholder="제목 입력" th:field="*{title}">
+      <textarea class="mainInput" placeholder="본문 입력" th:field="*{content}"></textarea>
       <div>
         <button>등록</button>
       </div>
