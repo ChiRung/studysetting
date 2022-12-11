@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      /* border: 1px solid black; */
+    }
+
+    .container {
+      padding: 5%;
+    }
+
+    .header {
+      display: flex;
+      justify-content: flex-end;
+      padding-bottom: 5%;
+    }
+
+    .memoItem {
+      display: flex;
+      overflow: hidden;
+      height: 80px;
+      border: 1px solid black;
+    }
+
+    .memoItem_contents {
+      width: 80%;
+    }
+
+    .memoItem_contents_main {
+      height: 100%;
+    }
+
+    .author {
+      width: 20%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <!-- 메모 리스트 아이템 -->
+    <div class="header">
+        <input placeholder="이메일" class="emailInput">
+        <input placeholder="비밀번호" class="passwordInput">
+        <button>로그인</button>
+      <button>가입</button>
+    </div>
+    <div class="memoItem">
+      <div class="memoItem_contents">
+        <b class="memoItem_contents_title">제목</b>
+        <p class="memoItem_contents_main">본문</p>
+      </div>
+      <span class="author">작성자</span>
+    </div>
+  </div>
+
+  <script>
+
+  </script>
+</body>
+
+</html>
