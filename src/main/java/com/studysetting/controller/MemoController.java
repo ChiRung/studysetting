@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.studysetting.domain.memo.MemoRepository;
 import com.studysetting.domain.memo.dto.PostMemo_res_dto;
@@ -34,6 +35,12 @@ public class MemoController {
 	@PostMapping("/addMemo") // 타임리프 쪽에서 이 컨트롤러 찌를꺼임
 	public String postMemo(@ModelAttribute("newMemo") PostMemo_res_dto newMemo) {
 		repo.save(newMemo.toEntity());
+		return "redirect:/";
+	}
+
+	@GetMapping("/deleteMemo")
+	public String deleteMemo(@RequestParam("memoId") Long memoId) {
+		repo.deleteById(memoId);
 		return "redirect:/";
 	}
 }
