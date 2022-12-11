@@ -25,6 +25,8 @@
       display: flex;
       overflow: hidden;
       height: 80px;
+      padding: 10px;
+      margin-bottom: 10px;
       border: 1px solid black;
     }
 
@@ -51,12 +53,12 @@
         <button>로그인</button>
       <button>가입</button>
     </div>
-    <div class="memoItem">
+    <div class="memoItem" th:each="m: ${memoList}">
       <div class="memoItem_contents">
-        <b class="memoItem_contents_title">제목</b>
-        <p class="memoItem_contents_main">본문</p>
+        <b class="memoItem_contents_title" th:text="${m.title}">제목</b>
+        <p class="memoItem_contents_main" th:text="${m.content}">본문</p>
       </div>
-      <span class="author">작성자</span>
+      <span class="author" th:text="${m.author}">작성자</span>
     </div>
   </div>
 
