@@ -1,19 +1,22 @@
 package com.studysetting.controller;
 
-import javax.validation.constraints.Null;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.studysetting.domain.user.UserEntity;
 import com.studysetting.domain.user.UserRepository;
 import com.studysetting.domain.user.dto.User_req_dto;
 
+@SessionAttributes(names = { "isLogined", "userId", "userEmail" }) // model에 addAttribute할 때 세션에도 저장하라고 명시
 @Controller
 public class UserController {
 
@@ -21,35 +24,43 @@ public class UserController {
   UserRepository userRepo;
 
   @PostMapping("/login")
-  public String login(@ModelAttribute("loginParam") User_req_dto loginParam, RedirectAttributes rediAttr) {
+  public void login(@ModelAttribute("loginParam") User_req_dto loginParam, HttpServletRequest request,
+      HttpServletResponse response) {
 
     try {
       UserEntity userData = userRepo.findByUserEmail(loginParam.getUserEmail()).get();
       if (loginParam.getUserPassword().equals(userData.getUserPassword())) {
-        System.out.println("로그인을 시도합니다.");
-        System.out.println("이메일: " + loginParam.getUserEmail());
-        System.out.println("비밀번호: " + loginParam.getUserPassword());
-        rediAttr.addFlashAttribute("isLogined", true);
+        HttpSession session = request.getSession();
+        session.setMaxInactiveInterval(1800);
+        session.setAttribute("isLogined", true);
+        session.setAttribute("userId", userData.getUserId());
+        session.setAttribute("userEmail", userData.getUserEmail());
+        response.sendRedirect(request.getContextPath() + "/");
       }
     } catch (Exception e) {
       System.out.println("아무도 오지않는 깊은 산속에" + e.toString());
     }
-    return "redirect:/";
   }
 
   @PostMapping("/signUp")
   public String signUp(@ModelAttribute("loginParam") User_req_dto loginParam) {
-    System.out.println("회원가입 이메일: " + loginParam.getUserEmail());
-    System.out.println("회원가입 비밀번호: " + loginParam.getUserPassword());
-    System.out.println("엠띠엠띠" + userRepo.findByUserEmail(loginParam.getUserEmail()).isPresent());
-
     if (userRepo.findByUserEmail(loginParam.getUserEmail()).isPresent()) {
-      // alert return 하기!
-      // message title, content class 만들어서
-      // addAttribute에 넣어서 보내기
+      // 이미 회원가입 된 경우의 핸들링
     } else {
       userRepo.save(loginParam.toEntity());
     }
+    return "redirect:/";
+  }
+
+  @GetMapping("/logout")
+  public String logout(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) {
+    Cookie[] cookies = httpServletRequest.getCookies();
+    if(cookies!=null) {
+    for (int i = 0; i < cookies.length; i++) {
+        cookies[i].setMaxAge(0);
+        httpServletResponse.addCookie(cookies[i]);
+    }
+  }
     return "redirect:/";
   }
 }

@@ -29,8 +29,6 @@ public class MemoController {
 		model.addAttribute("memoList", repo.findAll());
 		User_req_dto login_req_dto = new User_req_dto();
 		model.addAttribute("loginParam", login_req_dto);
-		// @RequestParam(name = "isLogined", required = false) boolean isLogined, 
-		// model.addAttribute("isLogined", isLogined);
 		return "home";
 	}
 

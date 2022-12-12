@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>진성 스터디 프로젝트</title>
   <style>
-
     .container {
       padding: 5%;
     }
@@ -39,7 +38,7 @@
     .author {
       width: 20%;
     }
-    
+
     .deleteBtn {
       width: 20px;
       height: 20px;
@@ -47,7 +46,6 @@
       background-color: red;
       cursor: pointer;
     }
-
   </style>
 </head>
 
@@ -55,27 +53,30 @@
   <div class="container">
     <div th:text="${abc}">하이요</div>
     <div class="header">
-      <form th:unless="${isLogined}" method="POST" th:action="@{/login}" th:object="${loginParam}">
-        <!-- <form th:unless="${isLogined}" th:object="${loginParam}"> -->
-        <input class="emailInput" required placeholder="이메일"  th:field="*{userEmail}">
-        <input  class="passwordInput" type="password" required placeholder="비밀번호" th:field="*{userPassword}" value="abc">
-        <button >로그인</button>
+      <form th:unless="${session.isLogined}" method="POST" th:action="@{/login}" th:object="${loginParam}">
+        <input class="emailInput" required placeholder="이메일" th:field="*{userEmail}">
+        <input class="passwordInput" type="password" required placeholder="비밀번호" th:field="*{userPassword}" value="abc">
+        <button>로그인</button>
         <button formaction="/signUp" formmethod="post">가입</button>
       </form>
-      <button type="button" th:if="${isLogined}" onclick="location.href='/addMemo'">등록</button>
+      <span th:text="${session.userEmail}">로그인한 유저이메일</span>
+      <button type="button" style="margin: 0px 5px;" th:if="${session.isLogined}"
+        onclick="location.href='/addMemo'">등록</button>
+      <button type="button" th:if="${session.isLogined}" onclick="location.href='/logout'">로그아웃</button>
     </div>
     <div class="memoItem" th:each="m: ${memoList}">
-      <div class="memoItem_contents" th:onclick="|${isLogined} ? location.href='@{/modify(memoId=${m.memoId})}' : null|">
+      <div class="memoItem_contents"
+        th:onclick="|${session.isLogined} ? location.href='@{/modify(memoId=${m.memoId})}' : null|">
         <b class="memoItem_contents_title" th:text="${m.title}">제목</b>
         <p class="memoItem_contents_main" th:text="${m.content}">본문</p>
       </div>
-      <span class="author" th:text="${m.author}">작성자</span>
-      <button class="deleteBtn" th:if="${isLogined}" th:onclick="|location.href='@{/deleteMemo(memoId=${m.memoId})}'|">X</button>
+      <span class="author" th:text="${m.authorEmail}">작성자</span>
+      <button class="deleteBtn" th:if="${session.isLogined}"
+        th:onclick="|location.href='@{/deleteMemo(memoId=${m.memoId})}'|">X</button>
     </div>
   </div>
 
   <script>
-
   </script>
 </body>
 
