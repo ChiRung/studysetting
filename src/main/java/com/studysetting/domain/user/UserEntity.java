@@ -2,7 +2,6 @@ package com.studysetting.domain.user;
 
 import java.util.Date;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -23,7 +22,7 @@ import lombok.NonNull;
 @Getter
 @Entity(name = "user")
 public class UserEntity {
-  
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long userId;

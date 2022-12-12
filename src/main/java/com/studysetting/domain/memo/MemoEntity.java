@@ -28,11 +28,13 @@ public class MemoEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long memoId;
 
-	private String author; // 이후 authorId로 변경하
-
 	private String title;
 
 	private String content;
+
+	private Long authorId; // 이후 authorId로 변경하
+
+	private String authorEmail;
 
 	@CreatedDate
 	private Date createDate;
@@ -41,9 +43,10 @@ public class MemoEntity {
 	private Date updateDate;
 
 	@Builder
-	public MemoEntity(Long memoId, String author, String title, String content, Date createDate, Date updateDate) {
+	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, Date createDate, Date updateDate) {
 		this.memoId = memoId;
-		this.author = author;
+		this.authorId = authorId;
+		this.authorEmail = authorEmail;
 		this.title = title;
 		this.content = content;
 		this.createDate = createDate;
