@@ -18,14 +18,18 @@
     }
 
     .memoItem {
-      display: flex;
-      overflow: hidden;
-      height: 80px;
+      /* display: flex; */
+      /* overflow: hidden; */
+      /* height: 80px; */
       padding: 10px;
       margin-bottom: 10px;
       border: 1px solid black;
     }
 
+    .memoItem_main {
+      display: flex;
+      /* overflow: hidden; */
+    }
     .memoItem_contents {
       width: 80%;
       /* cursor: pointer; */
@@ -50,6 +54,19 @@
       background-color: red;
       cursor: pointer;
     }
+    .commentBox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      /* border: 1px solid black; */
+    }
+    .commentBox > input {
+      width: 80%;
+    }
+    .commentBox > button {
+      width: 15%;
+      /* margin: 0px 10px; */
+    }
   </style>
 </head>
 
@@ -68,7 +85,8 @@
       <button type="button" th:if="${session.isLogined}" onclick="location.href='/logout'">로그아웃</button>
     </div>
     <div class="memoItem" th:each="m: ${memoList}">
-      <div class="memoItem_contents" th:classappend="${m.authorId} == ${session.userId} ? 'hover'"
+      <div class="memoItem_main">
+        <div class="memoItem_contents" th:classappend="${m.authorId} == ${session.userId} ? 'hover'"
         th:onclick="|(${m.authorId} == ${session.userId}) ? location.href='@{/modify(memoId=${m.memoId})}' : null|">
         <b class="memoItem_contents_title" th:text="${m.title}">제목</b>
         <p class="memoItem_contents_main" th:text="${m.content}">본문</p>
@@ -76,6 +94,13 @@
       <span class="author" th:text="${m.authorEmail}">작성자</span>
       <button class="deleteBtn" th:if="${m.authorId} == ${session.userId}"
         th:onclick="|location.href='@{/deleteMemo(memoId=${m.memoId})}'|">X</button>
+      </div>
+
+
+      <form class="commentBox">
+        <input>
+        <button>댓글</button>
+      </form>
     </div>
   </div>
 
