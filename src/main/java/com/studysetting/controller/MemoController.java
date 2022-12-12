@@ -12,7 +12,7 @@ import com.studysetting.domain.memo.MemoEntity;
 import com.studysetting.domain.memo.MemoRepository;
 import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
 import com.studysetting.domain.memo.dto.PostMemo_req_dto;
-import com.studysetting.domain.user.dto.Login_req_dto;
+import com.studysetting.domain.user.dto.User_req_dto;
 
 @Controller
 // @RestController
@@ -27,7 +27,7 @@ public class MemoController {
 	@GetMapping("/")
 	public String getHomePage(Model model) {
 		model.addAttribute("memoList", repo.findAll());
-		Login_req_dto login_req_dto = new Login_req_dto();
+		User_req_dto login_req_dto = new User_req_dto();
 		model.addAttribute("loginParam", login_req_dto);
 		// @RequestParam(name = "isLogined", required = false) boolean isLogined, 
 		// model.addAttribute("isLogined", isLogined);
