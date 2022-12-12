@@ -25,7 +25,7 @@ public class UserController {
 
   @PostMapping("/login")
   public void login(@ModelAttribute("loginParam") User_req_dto loginParam, HttpServletRequest request,
-      HttpServletResponse response) {
+      HttpServletResponse response) throws Exception {
 
     try {
       UserEntity userData = userRepo.findByUserEmail(loginParam.getUserEmail()).get();
@@ -39,6 +39,7 @@ public class UserController {
       }
     } catch (Exception e) {
       System.out.println("아무도 오지않는 깊은 산속에" + e.toString());
+      response.sendRedirect(request.getContextPath() + "/");
     }
   }
 

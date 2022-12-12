@@ -32,7 +32,7 @@ public class MemoEntity {
 
 	private String content;
 
-	private Long authorId; // 이후 authorId로 변경하
+	private Long authorId;
 
 	private String authorEmail;
 

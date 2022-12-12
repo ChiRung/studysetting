@@ -20,7 +20,8 @@ public class PostMemo_req_dto {
   private Long memoId; // 테스트용
   private String title;
   private String content;
-  private String author;
+  private Long authorId;
+  private String authorEmail;
   private Date createDate;
   private Date updateDate;
 
@@ -34,6 +35,8 @@ public class PostMemo_req_dto {
     return MemoEntity.builder()
             .title(title)
             .content(content)
+            .authorId(authorId)
+            .authorEmail(authorEmail)
             .build();
   }
 }

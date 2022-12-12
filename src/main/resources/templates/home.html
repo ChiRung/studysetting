@@ -28,6 +28,10 @@
 
     .memoItem_contents {
       width: 80%;
+      /* cursor: pointer; */
+    }
+
+    .hover {
       cursor: pointer;
     }
 
@@ -51,11 +55,10 @@
 
 <body>
   <div class="container">
-    <div th:text="${abc}">하이요</div>
     <div class="header">
       <form th:unless="${session.isLogined}" method="POST" th:action="@{/login}" th:object="${loginParam}">
         <input class="emailInput" required placeholder="이메일" th:field="*{userEmail}">
-        <input class="passwordInput" type="password" required placeholder="비밀번호" th:field="*{userPassword}" value="abc">
+        <input class="passwordInput" type="password" required placeholder="비밀번호" th:field="*{userPassword}">
         <button>로그인</button>
         <button formaction="/signUp" formmethod="post">가입</button>
       </form>
@@ -65,13 +68,13 @@
       <button type="button" th:if="${session.isLogined}" onclick="location.href='/logout'">로그아웃</button>
     </div>
     <div class="memoItem" th:each="m: ${memoList}">
-      <div class="memoItem_contents"
-        th:onclick="|${session.isLogined} ? location.href='@{/modify(memoId=${m.memoId})}' : null|">
+      <div class="memoItem_contents" th:classappend="${m.authorId} == ${session.userId} ? 'hover'"
+        th:onclick="|(${m.authorId} == ${session.userId}) ? location.href='@{/modify(memoId=${m.memoId})}' : null|">
         <b class="memoItem_contents_title" th:text="${m.title}">제목</b>
         <p class="memoItem_contents_main" th:text="${m.content}">본문</p>
       </div>
       <span class="author" th:text="${m.authorEmail}">작성자</span>
-      <button class="deleteBtn" th:if="${session.isLogined}"
+      <button class="deleteBtn" th:if="${m.authorId} == ${session.userId}"
         th:onclick="|location.href='@{/deleteMemo(memoId=${m.memoId})}'|">X</button>
     </div>
   </div>
