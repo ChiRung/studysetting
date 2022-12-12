@@ -1,15 +1,10 @@
 package com.studysetting.controller;
 
-import java.util.Optional;
-
-import javax.websocket.server.PathParam;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -17,6 +12,7 @@ import com.studysetting.domain.memo.MemoEntity;
 import com.studysetting.domain.memo.MemoRepository;
 import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
 import com.studysetting.domain.memo.dto.PostMemo_req_dto;
+import com.studysetting.domain.user.dto.Login_req_dto;
 
 @Controller
 // @RestController
@@ -31,6 +27,10 @@ public class MemoController {
 	@GetMapping("/")
 	public String getHomePage(Model model) {
 		model.addAttribute("memoList", repo.findAll());
+		Login_req_dto login_req_dto = new Login_req_dto();
+		model.addAttribute("loginParam", login_req_dto);
+		// @RequestParam(name = "isLogined", required = false) boolean isLogined, 
+		// model.addAttribute("isLogined", isLogined);
 		return "home";
 	}
 
@@ -49,59 +49,30 @@ public class MemoController {
 	 */
 	@PostMapping("/addMemo") // 타임리프 쪽에서 이 컨트롤러 찌를꺼임
 	public String postMemo(@ModelAttribute("newMemo") PostMemo_req_dto newMemo) {
-		// System.out.println(memoData);
-		
-		// repo.save(newMemo.toEntity().update(memoData.getTitle(), memoData.getContent());
-		// newMemo.toEntity().update(memoData.getTitle(), memoData.getContent());
-
-		// MemoEntity originData = repo.findById(memoData.getMemoId()).orElseThrow(()-> new IllegalArgumentException("해당 게시글이 없습니다."));
-		// originData.update(null, null);
-	
 		repo.save(newMemo.toEntity());
 		return "redirect:/";
 	}
 
+	/**
+	 * memo 수정 페이지 이동
+	 */
 	@GetMapping("/modify")
 	public String getModifyMemoPage(Model model, @RequestParam("memoId") Long memoId) {
 		PatchMemo_req_dto memoData = repo.findById(memoId).get().to_PatchMemo_req_dto();
 		model.addAttribute("memoData", memoData);
 		return "modifyMemo";
-		// return "redirect:/";
 	}
 
-@PostMapping("/modify")
-public String modifyMemo(@ModelAttribute("memoData") PatchMemo_req_dto patchMemo_req_dto) {
-	MemoEntity modifyData = repo.findById(patchMemo_req_dto.getMemoId()).get();
-	modifyData.update(patchMemo_req_dto.getTitle(), patchMemo_req_dto.getContent());
-	repo.save(modifyData);
-	return "redirect:/";
-}
-
-
-	// /**
-	//  * memo 수정 페이지 이동
-	//  * @return 
-	//  */
-	// @GetMapping("/modifyMemo")
-	// public String getModifyMemoPage(@RequestParam("memoId") Long memoId, Model model) {
-	// 	repo.findById(memoId);
-	// 	MemoEntity memoDetail = repo.findById(memoId).get();
-
-	// 	PatchMemo_req_dto patchMemo_req_dto = PatchMemo_req_dto.builder()
-	// 			.memoId(memoDetail.getMemoId())
-	// 			.title(memoDetail.getTitle())
-	// 			.content(memoDetail.getContent())
-	// 			.build();
-
-	// 	model.addAttribute("memoData", patchMemo_req_dto);
-	// 	return "modifyMemo";
-	// }
-
-	// @PostMapping("/modifyMemo")
-	// public String patchModifyMemo(@ModelAttribute("memoData") PatchMemo_req_dto memoData) {
-	// 		System.out.println(memoData.getTitle());
-	// 		return "redirect:/";
-	// }
+	/**
+	 * memo 수정
+	 */
+	@PostMapping("/modify")
+	public String modifyMemo(@ModelAttribute("memoData") PatchMemo_req_dto patchMemo_req_dto) {
+		MemoEntity modifyData = repo.findById(patchMemo_req_dto.getMemoId()).get();
+		modifyData.update(patchMemo_req_dto.getTitle(), patchMemo_req_dto.getContent());
+		repo.save(modifyData);
+		return "redirect:/";
+	}
 
 	/**
 	 * memo 삭제
