@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import com.studysetting.domain.comment.CommentEntity;
 import com.studysetting.domain.comment.CommentRepository;
 import com.studysetting.domain.memo.MemoEntity;
 import com.studysetting.domain.memo.MemoRepository;
@@ -28,11 +29,9 @@ public class HomeDataGetter {
 
   // private MemoRepository memoRepo;
   
-  public void getMemoList() {
+  public void getMemoList(Model model) {
     ArrayList<MemoEntity> memoEntities = (ArrayList<MemoEntity>) memoRepo.findAll();
-    ArrayList<GetAllMemo_res_dto> memoDtos = new ArrayList<GetAllMemo_res_dto>();
-    // to Dto
-
+  
     System.out.println("입 벌려라 메모 들어간다. : \n" + memoRepo.findAll());
     System.out.println("입 벌려라 댓글 들어간다. : \n" + commentRepo.findAll());
     // System.out.println(memoDtos.addAll(memoEntities));
@@ -41,9 +40,22 @@ public class HomeDataGetter {
     // System.out.println(memoEntities.stream().);
     
     // List<String> abc =
-    // memoRepo.findAll().stream().map(memo -> memo.getTitle()).collect(Collectors.toList());
+    // memoRepo.findAll().stream().map(memo -> memo.getMemoId()).collect(Collectors.toList());
+    
+    // List<String> abc = memoRepo.findAll().stream().map(memo -> memo.getComment().get(0)).collect(Collectors.toList())
+    // System.out.println("idontknow" + abc);
 
-    memoRepo.findAll().
+
+    for (MemoEntity m : memoEntities) {
+      // System.out.println(m.getComment());
+      for (CommentEntity c : m.getComment()) {
+        System.out.println(c.getContent());
+      }
+    }
+
+
+
+    model.addAttribute("memoList", memoEntities);
 
   }
 

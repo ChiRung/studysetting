@@ -127,16 +127,13 @@
         <!-- <input maxlength="150"> -->
         <button>댓글</button>
       </form>
-      <div class="commentList">
+      <div class="commentList" th:each="c: ${m.comment}">
         <div>
-          <b>띠용이</b>
-          <span>정말 띠용하네요.</span>
+          <b th:text="${c.authorEmail}">댓글 작성자</b>
+          <span th:text="${c.content}">댓글 내용</span>
         </div>
-        <span>2022-01-01</span>
+        <span th:text="${c.createDate}">댓글 작성일</span>
       </div>
-      <!-- <div th:each="c: ${commentList}">
-
-      </div> -->
     </div>
   </div>
 

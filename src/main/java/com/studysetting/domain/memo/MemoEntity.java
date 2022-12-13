@@ -2,6 +2,8 @@ package com.studysetting.domain.memo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -9,12 +11,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import com.studysetting.domain.memo.dto.GetAllMemo_res_dto;
+import com.studysetting.domain.comment.CommentEntity;
 import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
 
 import lombok.Builder;
@@ -35,7 +38,6 @@ public class MemoEntity {
 
 	private String content;
 
-	// @JoinColumn(referencedColumnName = "userId")
 	private Long authorId;
 
 	private String authorEmail;
@@ -45,6 +47,10 @@ public class MemoEntity {
 
 	@LastModifiedDate
 	private Date updateDate;
+
+	@OneToMany
+	@JoinColumn(name = "memoId") //
+	private List<CommentEntity> comment = new ArrayList<>(); // 생성자는 arraylist인데 타입은 list? interface가 타입이 될 수 있나?
 
 	@Builder
 	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, Date createDate, Date updateDate) {

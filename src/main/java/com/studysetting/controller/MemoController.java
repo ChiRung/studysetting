@@ -36,19 +36,18 @@ public class MemoController {
 	 * root 페이지 이동
 	 */
 	@GetMapping("/")
-	public String getHomePage() {
-	// public String getHomePage(Model model) {
-		// model.addAttribute("memoList", memoRepo.findAll());
-		// model.addAttribute("commentList", commentRepo)
-		// User_req_dto login_req_dto = new User_req_dto();
-		// model.addAttribute("loginParam", login_req_dto);
-		// PostMemo_req_dto postMemo_req_dto = new PostMemo_req_dto();
-		// model.addAttribute("newComment", postMemo_req_dto);
+	// public String getHomePage() {
+	public String getHomePage(Model model) {
+		// model.addAttribute("memoList", memoRepo.findAll()); // 요거 대신
+		User_req_dto login_req_dto = new User_req_dto();
+		model.addAttribute("loginParam", login_req_dto);
+		PostMemo_req_dto postMemo_req_dto = new PostMemo_req_dto();
+		model.addAttribute("newComment", postMemo_req_dto);
 
 		// 작업중 코드
 		// HomeDataGetter homeDataGetter = new HomeDataGetter(memoRepo);
-
-		homeDataGetter.getMemoList();
+		homeDataGetter.getMemoList(model);
+	
 		// System.out.println(homeDataGetter.getMemoList());
 
 // System.out.println(homeDataGetter);
