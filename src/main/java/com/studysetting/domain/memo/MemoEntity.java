@@ -43,10 +43,11 @@ public class MemoEntity {
 
 	@OneToMany(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "memoId")
-	private List<CommentEntity> comment = new ArrayList<>(); // 생성자는 arraylist인데 타입은 list? interface가 타입이 될 수 있나?
+	private List<CommentEntity> comment = new ArrayList<>();
 
 	@Builder
-	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, Date createDate, Date updateDate) {
+	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, Date createDate,
+			Date updateDate) {
 		this.memoId = memoId;
 		this.authorId = authorId;
 		this.authorEmail = authorEmail;
@@ -58,18 +59,14 @@ public class MemoEntity {
 
 	public PatchMemo_req_dto to_PatchMemo_req_dto() {
 		return PatchMemo_req_dto.builder()
-					.memoId(memoId)
-					.title(title)
-					.content(content)
-					.build();
+				.memoId(memoId)
+				.title(title)
+				.content(content)
+				.build();
 	}
 
 	public void update(String title, String content) {
 		this.title = title;
 		this.content = content;
 	}
-
-	// public ArrayList<GetAllMemo_res_dto> to_GetAllMemo_res_dto_list(ArrayList<MemoEntity> memoEntities) {
-	// 	//
-	// }
 }

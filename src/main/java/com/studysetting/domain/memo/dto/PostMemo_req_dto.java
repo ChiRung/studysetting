@@ -13,11 +13,10 @@ import lombok.Setter;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Setter
-// @NoArgsConstructor
 @Getter
 public class PostMemo_req_dto {
 
-  private Long memoId; // 테스트용
+  private Long memoId;
   private String title;
   private String content;
   private Long authorId;
@@ -31,7 +30,7 @@ public class PostMemo_req_dto {
     this.content = content;
   }
 
-  public MemoEntity toEntity() { // 추후 로그인 추가에 따른 작성자 이름, 작성자 아이디 등 추가하기
+  public MemoEntity toEntity() {
     return MemoEntity.builder()
             .title(title)
             .content(content)

@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.studysetting.domain.comment.CommentRepository;
 import com.studysetting.domain.memo.MemoEntity;
 import com.studysetting.domain.memo.MemoRepository;
 import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
@@ -20,14 +19,10 @@ import com.studysetting.domain.user.dto.User_req_dto;
 import com.studysetting.service.HomeDataGetter;
 
 @Controller
-// @RestController
 public class MemoController {
 
 	@Autowired
 	MemoRepository memoRepo;
-
-	// @Autowired
-	// CommentRepository commentRepo;
 
 	@Autowired
 	HomeDataGetter homeDataGetter;
@@ -38,20 +33,13 @@ public class MemoController {
 	@GetMapping("/")
 	// public String getHomePage() {
 	public String getHomePage(Model model) {
-		// model.addAttribute("memoList", memoRepo.findAll()); // 요거 대신
 		User_req_dto login_req_dto = new User_req_dto();
 		model.addAttribute("loginParam", login_req_dto);
 		PostMemo_req_dto postMemo_req_dto = new PostMemo_req_dto();
 		model.addAttribute("newComment", postMemo_req_dto);
 
-		// 작업중 코드
-		// HomeDataGetter homeDataGetter = new HomeDataGetter(memoRepo);
 		homeDataGetter.getMemoList(model);
 	
-		// System.out.println(homeDataGetter.getMemoList());
-
-// System.out.println(homeDataGetter);
-		// System.out.println(memoRepo.findAll());
 		return "home";
 	}
 
