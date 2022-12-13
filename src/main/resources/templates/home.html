@@ -72,6 +72,7 @@
       width: 15%;
       /* margin: 0px 10px; */
     }
+
     .commentList {
       display: flex;
       /* flex-direction: column; */
@@ -81,10 +82,12 @@
       border: 0.5px solid rgba(128, 128, 128, 0.336);
       /* border-radius: 3px; */
     }
-    .commentList > div {
+
+    .commentList>div {
       display: inline-block;
     }
-    .commentList > b {
+
+    .commentList>b {
       margin-right: 3.5%;
     }
   </style>
@@ -115,10 +118,13 @@
         <button class="deleteBtn" th:if="${m.authorId} == ${session.userId}"
           th:onclick="|location.href='@{/deleteMemo(memoId=${m.memoId})}'|">X</button>
       </div>
-
-
-      <form class="commentBox" th:if="${session.isLogined}">
-        <input maxlength="150">
+      <form class="commentBox" th:if="${session.isLogined}" method="POST" th:action="@{/comment(memoId=${m.memoId})}"
+        th:object="${newComment}">
+        <input required maxlength="150" th:field="*{content}">
+        <!-- <input class="hidden" th:value="*{authorId} = ${session.userId}"> -->
+        <!-- <input class="hidden" th:value="${session.userEmail}"> -->
+        <!-- <input class="hidden" th:field="${session.userId}"> -->
+        <!-- <input maxlength="150"> -->
         <button>댓글</button>
       </form>
       <div class="commentList">

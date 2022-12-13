@@ -11,27 +11,48 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.studysetting.domain.comment.CommentRepository;
 import com.studysetting.domain.memo.MemoEntity;
 import com.studysetting.domain.memo.MemoRepository;
 import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
 import com.studysetting.domain.memo.dto.PostMemo_req_dto;
 import com.studysetting.domain.user.dto.User_req_dto;
+import com.studysetting.service.HomeDataGetter;
 
 @Controller
 // @RestController
 public class MemoController {
 
 	@Autowired
-	MemoRepository repo;
+	MemoRepository memoRepo;
+
+	// @Autowired
+	// CommentRepository commentRepo;
+
+	@Autowired
+	HomeDataGetter homeDataGetter;
 
 	/**
 	 * root 페이지 이동
 	 */
 	@GetMapping("/")
-	public String getHomePage(Model model) {
-		model.addAttribute("memoList", repo.findAll());
-		User_req_dto login_req_dto = new User_req_dto();
-		model.addAttribute("loginParam", login_req_dto);
+	public String getHomePage() {
+	// public String getHomePage(Model model) {
+		// model.addAttribute("memoList", memoRepo.findAll());
+		// model.addAttribute("commentList", commentRepo)
+		// User_req_dto login_req_dto = new User_req_dto();
+		// model.addAttribute("loginParam", login_req_dto);
+		// PostMemo_req_dto postMemo_req_dto = new PostMemo_req_dto();
+		// model.addAttribute("newComment", postMemo_req_dto);
+
+		// 작업중 코드
+		// HomeDataGetter homeDataGetter = new HomeDataGetter(memoRepo);
+
+		homeDataGetter.getMemoList();
+		// System.out.println(homeDataGetter.getMemoList());
+
+// System.out.println(homeDataGetter);
+		// System.out.println(memoRepo.findAll());
 		return "home";
 	}
 
@@ -51,10 +72,9 @@ public class MemoController {
 	@PostMapping("/addMemo") // 타임리프 쪽에서 이 컨트롤러 찌를꺼임
 	public String postMemo(@ModelAttribute("newMemo") PostMemo_req_dto newMemo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		;
 		newMemo.setAuthorId((Long) session.getAttribute("userId"));
 		newMemo.setAuthorEmail((String) session.getAttribute("userEmail"));
-		repo.save(newMemo.toEntity());
+		memoRepo.save(newMemo.toEntity());
 		return "redirect:/";
 	}
 
@@ -63,7 +83,7 @@ public class MemoController {
 	 */
 	@GetMapping("/modify")
 	public String getModifyMemoPage(Model model, @RequestParam("memoId") Long memoId) {
-		PatchMemo_req_dto memoData = repo.findById(memoId).get().to_PatchMemo_req_dto();
+		PatchMemo_req_dto memoData = memoRepo.findById(memoId).get().to_PatchMemo_req_dto();
 		model.addAttribute("memoData", memoData);
 		return "modifyMemo";
 	}
@@ -73,9 +93,9 @@ public class MemoController {
 	 */
 	@PostMapping("/modify")
 	public String modifyMemo(@ModelAttribute("memoData") PatchMemo_req_dto patchMemo_req_dto) {
-		MemoEntity modifyData = repo.findById(patchMemo_req_dto.getMemoId()).get();
+		MemoEntity modifyData = memoRepo.findById(patchMemo_req_dto.getMemoId()).get();
 		modifyData.update(patchMemo_req_dto.getTitle(), patchMemo_req_dto.getContent());
-		repo.save(modifyData);
+		memoRepo.save(modifyData);
 		return "redirect:/";
 	}
 
@@ -84,7 +104,7 @@ public class MemoController {
 	 */
 	@GetMapping("/deleteMemo")
 	public String deleteMemo(@RequestParam("memoId") Long memoId) {
-		repo.deleteById(memoId);
+		memoRepo.deleteById(memoId);
 		return "redirect:/";
 	}
 }

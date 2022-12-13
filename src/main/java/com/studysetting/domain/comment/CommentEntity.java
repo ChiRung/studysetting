@@ -30,15 +30,18 @@ public class CommentEntity {
 
   private Long authorId;
 
+  private String authorEmail;
+
   private String content;
 
   @CreatedDate
   private Date createDate;
 
   @Builder
-  public CommentEntity(Long memoId, Long authorId, String content) {
+  public CommentEntity(Long memoId, Long authorId, String authorEmail, String content) {
     this.memoId = memoId;
     this.authorId = authorId;
+    this.authorEmail = authorEmail;
     this.content = content;
   }
 

@@ -1,5 +1,6 @@
 package com.studysetting.domain.memo;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -7,11 +8,13 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.studysetting.domain.memo.dto.GetAllMemo_res_dto;
 import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
 
 import lombok.Builder;
@@ -32,6 +35,7 @@ public class MemoEntity {
 
 	private String content;
 
+	// @JoinColumn(referencedColumnName = "userId")
 	private Long authorId;
 
 	private String authorEmail;
@@ -65,4 +69,8 @@ public class MemoEntity {
 		this.title = title;
 		this.content = content;
 	}
+
+	// public ArrayList<GetAllMemo_res_dto> to_GetAllMemo_res_dto_list(ArrayList<MemoEntity> memoEntities) {
+	// 	//
+	// }
 }
