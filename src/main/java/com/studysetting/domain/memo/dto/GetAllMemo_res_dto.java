@@ -11,17 +11,19 @@ import lombok.NoArgsConstructor;
 public class GetAllMemo_res_dto {
 
 	private Long memoId;
-	private String author; // 이후 authorId로 변경하
+	private Long authorId;
+	private String authorEmail; // 이후 authorEmailId로 변경하
 	private String title;
 	private String content;
 	private Date createDate;
 	private Date updateDate;
 	
 	@Builder
-	public GetAllMemo_res_dto(Long memoId, String author, String title, String content, Date createDate,
+	public GetAllMemo_res_dto(Long memoId, Long authorId, String authorEmail, String title, String content, Date createDate,
 			Date updateDate) {
 		this.memoId = memoId;
-		this.author = author;
+		this.authorId = authorId;
+		this.authorEmail = authorEmail;
 		this.title = title;
 		this.content = content;
 		this.createDate = createDate;

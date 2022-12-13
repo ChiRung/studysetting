@@ -7,7 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>진성 스터디 프로젝트</title>
   <style>
-
     .container {
       padding: 5%;
     }
@@ -19,16 +18,25 @@
     }
 
     .memoItem {
-      display: flex;
-      overflow: hidden;
-      height: 80px;
+      /* display: flex; */
+      /* overflow: hidden; */
+      /* height: 80px; */
       padding: 10px;
       margin-bottom: 10px;
       border: 1px solid black;
     }
 
+    .memoItem_main {
+      display: flex;
+      /* overflow: hidden; */
+    }
+
     .memoItem_contents {
       width: 80%;
+      /* cursor: pointer; */
+    }
+
+    .hover {
       cursor: pointer;
     }
 
@@ -39,7 +47,7 @@
     .author {
       width: 20%;
     }
-    
+
     .deleteBtn {
       width: 20px;
       height: 20px;
@@ -48,31 +56,85 @@
       cursor: pointer;
     }
 
+    .commentBox {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      /* border: 1px solid black; */
+    }
+
+    .commentBox>input {
+      width: 80%;
+    }
+
+    .commentBox>button {
+      width: 15%;
+      /* margin: 0px 10px; */
+    }
+    .commentList {
+      display: flex;
+      /* flex-direction: column; */
+      justify-content: space-between;
+      align-items: center;
+      width: 80%;
+      border: 0.5px solid rgba(128, 128, 128, 0.336);
+      /* border-radius: 3px; */
+    }
+    .commentList > div {
+      display: inline-block;
+    }
+    .commentList > b {
+      margin-right: 3.5%;
+    }
   </style>
 </head>
 
 <body>
   <div class="container">
-    <!-- 메모 리스트 아이템 -->
     <div class="header">
-      <input placeholder="이메일" class="emailInput">
-      <input placeholder="비밀번호" class="passwordInput">
-      <button>로그인</button>
-      <button>가입</button>
-      <button onclick="location.href='/addMemo'">등록</button>
+      <form th:unless="${session.isLogined}" method="POST" th:action="@{/login}" th:object="${loginParam}">
+        <input class="emailInput" required placeholder="이메일" th:field="*{userEmail}">
+        <input class="passwordInput" type="password" required placeholder="비밀번호" th:field="*{userPassword}">
+        <button>로그인</button>
+        <button formaction="/signUp" formmethod="post">가입</button>
+      </form>
+      <span th:text="${session.userEmail}">로그인한 유저이메일</span>
+      <button type="button" style="margin: 0px 5px;" th:if="${session.isLogined}"
+        onclick="location.href='/addMemo'">등록</button>
+      <button type="button" th:if="${session.isLogined}" onclick="location.href='/logout'">로그아웃</button>
     </div>
     <div class="memoItem" th:each="m: ${memoList}">
-      <div class="memoItem_contents" th:onclick="|location.href='@{/modify(memoId=${m.memoId})}'|">
-        <b class="memoItem_contents_title" th:text="${m.title}">제목</b>
-        <p class="memoItem_contents_main" th:text="${m.content}">본문</p>
+      <div class="memoItem_main">
+        <div class="memoItem_contents" th:classappend="${m.authorId} == ${session.userId} ? 'hover'"
+          th:onclick="|(${m.authorId} == ${session.userId}) ? location.href='@{/modify(memoId=${m.memoId})}' : null|">
+          <b class="memoItem_contents_title" th:text="${m.title}">제목</b>
+          <p class="memoItem_contents_main" th:text="${m.content}">본문</p>
+        </div>
+        <span class="author" th:text="${m.authorEmail}">작성자</span>
+        <button class="deleteBtn" th:if="${m.authorId} == ${session.userId}"
+          th:onclick="|location.href='@{/deleteMemo(memoId=${m.memoId})}'|">X</button>
       </div>
-      <span class="author" th:text="${m.author}">작성자</span>
-      <button class="deleteBtn" th:onclick="|location.href='@{/deleteMemo(memoId=${m.memoId})}'|">X</button>
+
+
+      <form class="commentBox" th:if="${session.isLogined}">
+        <input maxlength="150">
+        <button>댓글</button>
+      </form>
+      <div class="commentList">
+        <div>
+          <b>띠용이</b>
+          <span>정말 띠용하네요.</span>
+        </div>
+        <span>2022-01-01</span>
+      </div>
+      <!-- <div th:each="c: ${commentList}">
+
+      </div> -->
     </div>
   </div>
 
   <script>
-
   </script>
 </body>
 
