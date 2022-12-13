@@ -2,16 +2,9 @@ package com.studysetting.domain.memo;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -48,8 +41,8 @@ public class MemoEntity {
 	@LastModifiedDate
 	private Date updateDate;
 
-	@OneToMany
-	@JoinColumn(name = "memoId") //
+	@OneToMany(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "memoId")
 	private List<CommentEntity> comment = new ArrayList<>(); // 생성자는 arraylist인데 타입은 list? interface가 타입이 될 수 있나?
 
 	@Builder
