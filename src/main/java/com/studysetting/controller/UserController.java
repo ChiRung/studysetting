@@ -37,7 +37,7 @@ public class UserController {
         session.setAttribute("userEmail", userData.getUserEmail());
       }
     } catch (Exception e) {
-      System.out.println("아무도 오지않는 깊은 산속에" + e.toString());
+      System.out.println(e.toString());
     }
     response.sendRedirect(request.getContextPath() + "/");
   }
