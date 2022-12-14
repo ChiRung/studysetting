@@ -1,6 +1,6 @@
 package com.studysetting.domain.comment;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
@@ -30,15 +30,18 @@ public class CommentEntity {
 
   private Long authorId;
 
+  private String authorEmail;
+
   private String content;
 
   @CreatedDate
-  private Date createDate;
+  private LocalDate createDate;
 
   @Builder
-  public CommentEntity(Long memoId, Long authorId, String content) {
+  public CommentEntity(Long memoId, Long authorId, String authorEmail, String content) {
     this.memoId = memoId;
     this.authorId = authorId;
+    this.authorEmail = authorEmail;
     this.content = content;
   }
 

@@ -1,17 +1,16 @@
 package com.studysetting.domain.memo;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.studysetting.domain.comment.CommentEntity;
 import com.studysetting.domain.memo.dto.PatchMemo_req_dto;
 
 import lombok.Builder;
@@ -37,13 +36,18 @@ public class MemoEntity {
 	private String authorEmail;
 
 	@CreatedDate
-	private Date createDate;
+	private LocalDate createDate;
 
 	@LastModifiedDate
-	private Date updateDate;
+	private LocalDate updateDate;
+
+	@OneToMany(cascade = CascadeType.REMOVE)
+	@JoinColumn(name = "memoId")
+	private List<CommentEntity> comment = new ArrayList<>();
 
 	@Builder
-	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, Date createDate, Date updateDate) {
+	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, LocalDate createDate,
+	LocalDate updateDate) {
 		this.memoId = memoId;
 		this.authorId = authorId;
 		this.authorEmail = authorEmail;
@@ -55,10 +59,10 @@ public class MemoEntity {
 
 	public PatchMemo_req_dto to_PatchMemo_req_dto() {
 		return PatchMemo_req_dto.builder()
-					.memoId(memoId)
-					.title(title)
-					.content(content)
-					.build();
+				.memoId(memoId)
+				.title(title)
+				.content(content)
+				.build();
 	}
 
 	public void update(String title, String content) {
