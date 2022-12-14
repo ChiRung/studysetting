@@ -70,7 +70,9 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      box-sizing: border-box;
       width: 80%;
+      padding: 0 1%;
       border: 0.5px solid rgba(128, 128, 128, 0.336);
     }
 
@@ -80,6 +82,10 @@
 
     .commentList>b {
       margin-right: 3.5%;
+    }
+
+    .notLast {
+      margin-bottom: 10px;
     }
   </style>
 </head>
@@ -114,7 +120,8 @@
         <input required maxlength="150" th:field="*{content}">
         <button>댓글</button>
       </form>
-      <div class="commentList" th:each="c: ${m.comment}">
+      <div class="commentList" th:each="c, index: ${m.comment}"
+        th:classappend="${#lists.size(m.comment)-1} != ${index.index} ? 'notLast'">
         <div>
           <b th:text="${c.authorEmail}">댓글 작성자</b>
           <span th:text="${c.content}">댓글 내용</span>
@@ -123,9 +130,6 @@
       </div>
     </div>
   </div>
-
-  <script>
-  </script>
 </body>
 
 </html>
