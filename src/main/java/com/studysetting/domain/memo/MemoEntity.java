@@ -1,7 +1,7 @@
 package com.studysetting.domain.memo;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
@@ -36,18 +36,18 @@ public class MemoEntity {
 	private String authorEmail;
 
 	@CreatedDate
-	private Date createDate;
+	private LocalDate createDate;
 
 	@LastModifiedDate
-	private Date updateDate;
+	private LocalDate updateDate;
 
 	@OneToMany(cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "memoId")
 	private List<CommentEntity> comment = new ArrayList<>();
 
 	@Builder
-	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, Date createDate,
-			Date updateDate) {
+	public MemoEntity(Long memoId, Long authorId, String title, String authorEmail, String content, LocalDate createDate,
+	LocalDate updateDate) {
 		this.memoId = memoId;
 		this.authorId = authorId;
 		this.authorEmail = authorEmail;

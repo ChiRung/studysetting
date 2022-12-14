@@ -103,6 +103,7 @@
       <button type="button" style="margin: 0px 5px;" th:if="${session.isLogined}"
         onclick="location.href='/addMemo'">등록</button>
       <button type="button" th:if="${session.isLogined}" onclick="location.href='/logout'">로그아웃</button>
+      <button th:onclick="location.href='/download'" style="margin-left: 0.5%;">엑셀 다운로드</button>
     </div>
     <div class="memoItem" th:each="m: ${memoList}">
       <div class="memoItem_main">
