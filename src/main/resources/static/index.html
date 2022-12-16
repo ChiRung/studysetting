@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>진성 스터디 프로젝트</title>
+  <script src="https://code.jquery.com/jquery-3.6.2.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"
+    integrity="sha512-aUhL2xOCrpLEuGD5f6tgHbLYEXRpYZ8G5yD+WlFrXrPy2IrWBlu6bih5C9H6qGsgqnU6mgx6KtU8TreHpASprw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <style>
+    b {
+      padding: 0px 5px;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: inherit;
+    }
+
+    .row-spaceBetween {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .loginForm {
+      display: flex;
+      justify-content: flex-end;
+      width: 100%;
+    }
+
+    .memo {
+      width: 40%;
+      min-width: 600px;
+      min-height: 100px;
+      padding: 1%;
+      border: 1px solid black;
+    }
+
+    .memoTitle {
+      font-weight: bold;
+      font-weight: bold;
+    }
+
+    .commentItem {
+      margin-bottom: 5px;
+      border: 1px solid rgba(119, 118, 118, 0.438);
+    }
+
+    .commentForm {
+      margin-bottom: 10px;
+    }
+
+    .commentInput {
+      width: 80%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <form class="loginForm hideWhenLoggedIn">
+      <input class="emailInput" value="chirung2404">
+      <input class="passwordInput" value="fncpahs0728@" type="password">
+      <button onclick="login()" onsubmit="login()">로그인</button>
+      <button formaction="/jq/signUp">회원가입</button>
+    </form>
+    <div class="showWhenLoggedIn">
+      <span class="loginUserEmail"></span>
+      <button onclick="location.href='happy.html'">등록</button>
+      <button onclick="logout()">로그아웃</button>
+    </div>
+  </div>
+
+  <script>
+    // 페이지 진입 시 로그인 여부 확인 및 화면 요소 세팅
+    if (($.cookie('id') && $.cookie('email'))) {
+      $('.loginUserEmail').text($.cookie('email'));
+      $('.hideWhenLoggedIn').css('display', 'none');
+    } else {
+      $('.showWhenLoggedIn').css('display', 'none');
+    }
+
+    const memoList = [];
+    !memoList.length && $('.noResultMessage').css('display', 'none');
+
+    $.ajax({
+      type: "get",
+      url: "/getAllMemo",
+      success: (res) => {
+        memoList.push(...res);
+        memoList.forEach((memo, index) => {
+          $('.container').append(memoItem(memo, index));
+        });
+      }
+    });
+
+    const memoItem = (memo, index) => {
+      return (
+        `
+        <div class="memo">
+          <div class="row-spaceBetween">
+            <span class="memoTitle">${memo.title}</span>
+            ${memo.authorEmail == $.cookie('email') ? `<button class="deleteBtn" onclick="delete(${memo.memoId})">X</button>` : ''}
+          </div>
+          <p>${memo.content}</p>
+          <div class="commentList">
+            ${!!$.cookie('id') && !!$.cookie('email') ?
+          `
+                <form class="commentForm row-spaceBetween">
+                  <input class="commentInput" id="commentInput-${memo.memoId}">
+                  <button onclick="addComment(${memo.memoId})" class="commentBtn" value="${memo.memoId}">댓글 등록</button>
+                </form>
+              `
+          : ''
+        }
+            ${memo.comment.map((c) =>
+          `
+              <div class="commentItem">
+                <b>${c.authorEmail}</b>
+                <small>${c.content}</small>
+              </div>
+              `
+        ).join('')}
+          </div>
+        </div>
+        `
+      );
+    };
+
+
+
+
+
+    const addComment = (memoId) => {
+      $.ajax({
+        type: "post",
+        url: "/jq/addComment",
+        data: {
+          content: $(`#commentInput-${memoId}`).val(),
+          authorId: $.cookie('id'),
+          authorEmail: $.cookie('email'),
+          memoId: memoId
+        },
+        dataType: "json",
+        success: (res) => {
+          alert('댓글 등록 성공', JSON.stringify(res));
+          location.href = '/';
+        },
+        error: (err) => {
+          console.log(err);
+        }
+      });
+    };
+
+    const login = () => {
+      if ($('.emailInput').val() && $('.passwordInput').val()) {
+        const userData = {
+          userEmail: $('.emailInput').val(),
+          userPassword: $('.passwordInput').val()
+        };
+        $.ajax({
+          type: "post",
+          url: "/jq/login",
+          data: userData,
+          dataType: "json",
+          success: (res) => {
+            const { userEmail, userId } = res;
+            $.cookie('id', userId, { expires: 7 });
+            $.cookie('email', userEmail, { expires: 7 });
+            location.href = '/';
+          },
+          error: (err) => {
+            console.error(err);
+          }
+        });
+      }
+    };
+
+    const logout = () => {
+      $.removeCookie('id');
+      $.removeCookie('email');
+      location.href = "/";
+    }
+
+  </script>
+
+</body>
+
+</html>

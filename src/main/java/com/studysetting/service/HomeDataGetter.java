@@ -23,4 +23,5 @@ public class HomeDataGetter {
     ArrayList<MemoEntity> memoEntities = (ArrayList<MemoEntity>) memoRepo.findAll();
     model.addAttribute("memoList", memoEntities);
   }
+
 }

@@ -9,11 +9,14 @@ import lombok.Setter;
 @Setter
 @Getter
 public class User_res_dto {
+
+  private String messasge;
   private Long userId;
   private String userEmail;
 
   @Builder
   public User_res_dto(Long userId, String userEmail) {
+    this.messasge = "success";
     this.userId = userId;
     this.userEmail = userEmail;
   }

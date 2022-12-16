@@ -38,16 +38,16 @@ public class MemoController {
 	/**
 	 * root 페이지 이동
 	 */
-	@GetMapping("/")
-	public String getHomePage(Model model) {
-		User_req_dto login_req_dto = new User_req_dto();
-		model.addAttribute("loginParam", login_req_dto);
-		PostMemo_req_dto postMemo_req_dto = new PostMemo_req_dto();
-		model.addAttribute("newComment", postMemo_req_dto);
+	// @GetMapping("/")
+	// public String getHomePage(Model model) {
+	// 	User_req_dto login_req_dto = new User_req_dto();
+	// 	model.addAttribute("loginParam", login_req_dto);
+	// 	PostMemo_req_dto postMemo_req_dto = new PostMemo_req_dto();
+	// 	model.addAttribute("newComment", postMemo_req_dto);
 
-		homeDataGetter.getMemoList(model);
-		return "home";
-	}
+	// 	homeDataGetter.getMemoList(model);
+	// 	return "home";
+	// }
 
 	/**
 	 * addMemo페이지 이동

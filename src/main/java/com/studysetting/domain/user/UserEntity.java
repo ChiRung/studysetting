@@ -12,6 +12,9 @@ import javax.persistence.Id;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.studysetting.domain.user.dto.User_req_dto;
+import com.studysetting.domain.user.dto.User_res_dto;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,5 +45,12 @@ public class UserEntity {
   public UserEntity(String userEmail, String userPassword) {
     this.userEmail = userEmail;
     this.userPassword = userPassword;
+  }
+
+  public User_res_dto to_User_res_dto() {
+    return User_res_dto.builder()
+    .userId(userId)
+    .userEmail(userEmail)
+    .build();
   }
 }

@@ -12,11 +12,13 @@ import lombok.Setter;
 @Setter
 @Getter
 public class User_req_dto {
+  private Long userId;
   private String userEmail;
   private String userPassword;
 
   @Builder
-  public User_req_dto(String userEmail, String userPassword) {
+  public User_req_dto(Long userId, String userEmail, String userPassword) {
+    this.userId = userId;
     this.userEmail = userEmail;
     this.userPassword = userPassword;
   }
