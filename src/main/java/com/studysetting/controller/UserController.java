@@ -35,12 +35,11 @@ public class UserController {
         session.setAttribute("isLogined", true);
         session.setAttribute("userId", userData.getUserId());
         session.setAttribute("userEmail", userData.getUserEmail());
-        response.sendRedirect(request.getContextPath() + "/");
       }
     } catch (Exception e) {
-      System.out.println("아무도 오지않는 깊은 산속에" + e.toString());
-      response.sendRedirect(request.getContextPath() + "/");
+      System.out.println(e.toString());
     }
+    response.sendRedirect(request.getContextPath() + "/");
   }
 
   @PostMapping("/signUp")
