@@ -102,7 +102,7 @@
       <span th:text="${session.userEmail}">로그인한 유저이메일</span>
       <button type="button" style="margin: 0px 5px;" th:if="${session.isLogined}"
         onclick="location.href='/addMemo'">등록</button>
-      <button type="button" th:if="${session.isLogined}" onclick="location.href='/logout'">로그아웃</button>
+      <button type="button" th:if="${session.isLogined}" th:onclick="|location.href='/logout'|">로그아웃</button>
       <button th:onclick="location.href='/download'" style="margin-left: 0.5%;">모든 메모 엑셀 다운로드</button>
     </div>
     <h1 th:unless="${#lists.size(memoList)}" style="width: inherit; text-align: center;">
