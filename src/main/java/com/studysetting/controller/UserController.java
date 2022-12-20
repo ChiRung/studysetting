@@ -1,11 +1,17 @@
 package com.studysetting.controller;
 
+import java.io.IOException;
+import java.io.UncheckedIOException;
+
+import javax.management.RuntimeErrorException;
+import javax.naming.NameNotFoundException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContextException;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -26,8 +32,6 @@ public class UserController {
   @PostMapping("/login")
   public void login(@ModelAttribute("loginParam") User_req_dto loginParam, HttpServletRequest request,
       HttpServletResponse response) throws Exception {
-
-    try {
       UserEntity userData = userRepo.findByUserEmail(loginParam.getUserEmail()).get();
       if (loginParam.getUserPassword().equals(userData.getUserPassword())) {
         HttpSession session = request.getSession();
@@ -36,9 +40,6 @@ public class UserController {
         session.setAttribute("userId", userData.getUserId());
         session.setAttribute("userEmail", userData.getUserEmail());
       }
-    } catch (Exception e) {
-      System.out.println(e.toString());
-    }
     response.sendRedirect(request.getContextPath() + "/");
   }
 
