@@ -11,7 +11,6 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,16 +26,14 @@ import com.studysetting.domain.memo.dto.PostMemo_req_dto;
 import com.studysetting.domain.user.dto.User_req_dto;
 import com.studysetting.service.HomeDataGetter;
 
-import lombok.RequiredArgsConstructor;
-
-@RequiredArgsConstructor
 @Controller
 public class MemoController {
 
 	@Autowired
 	MemoRepository memoRepo;
 
-	private final HomeDataGetter homeDataGetter;
+	@Autowired
+	HomeDataGetter homeDataGetter;
 
 	/**
 	 * root 페이지 이동
@@ -65,7 +62,7 @@ public class MemoController {
 	/**
 	 * memo 등록
 	 */
-	@PostMapping("/addMemo")
+	@PostMapping("/addMemo") // 타임리프 쪽에서 이 컨트롤러 찌를꺼임
 	public String postMemo(@ModelAttribute("newMemo") PostMemo_req_dto newMemo, HttpServletRequest request) {
 		HttpSession session = request.getSession();
 		newMemo.setAuthorId((Long) session.getAttribute("userId"));
@@ -153,6 +150,7 @@ public class MemoController {
 		
 		// 컨텐츠 타입과 파일명 지정
 		response.setContentType("ms-vnd/excel");
+		// response.setHeader("Content-Disposition", "attachment;filename=example.xls");
 		response.setHeader("Content-Disposition", "attachment;filename=studysetting.xls");
 
 		try {
