@@ -39,7 +39,6 @@ public class UserController {
     } catch (Exception e) {
       System.out.println(e.toString());
     }
-    response.sendRedirect(request.getContextPath() + "/");
   }
 
   @PostMapping("/signUp")
