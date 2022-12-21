@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body th:fragment="CommonHeader">
+  <div class="header">
+    <form th:unless="${session.isLogined}" method="POST" th:action="@{/login}" th:object="${loginParam}">
+      <input class="emailInput" required autocomplete="off" placeholder="이메일" th:field="*{userEmail}">
+      <input class="passwordInput" type="password" required autocomplete="off" placeholder="비밀번호"
+        th:field="*{userPassword}">
+      <button>로그인</button>
+      <button formaction="/signUp" formmethod="post">가입</button>
+    </form>
+    <span th:text="${session.userEmail}">로그인한 유저이메일</span>
+    <button type="button" style="margin: 0px 5px;" th:if="${session.isLogined}"
+      onclick="location.href='/addMemo'">등록</button>
+    <button class="logoutBtn" type="button" th:if="${session.isLogined}"
+      th:onclick="|location.href='/logout'|">로그아웃</button>
+    <button th:onclick="location.href='/download'" style="margin-left: 0.5%;">모든 메모 엑셀 다운로드</button>
+  </div>
+</body>
+
+</html>
