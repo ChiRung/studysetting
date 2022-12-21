@@ -1,5 +1,6 @@
 package com.studysetting.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,7 +103,7 @@ public class MemoController {
 	}
 
 	@GetMapping("/download")
-	public void downloadMemo(HttpServletResponse response, Model model) {
+	public void downloadMemo(HttpServletResponse response, Model model) throws IOException {
 		homeDataGetter.getMemoList(model);
 		ArrayList<MemoEntity> memoList = (ArrayList<MemoEntity>) model.getAttribute("memoList");
 		
@@ -152,13 +153,10 @@ public class MemoController {
 		response.setContentType("ms-vnd/excel");
 		// response.setHeader("Content-Disposition", "attachment;filename=example.xls");
 		response.setHeader("Content-Disposition", "attachment;filename=studysetting.xls");
-
-		try {
+		
 			workbook.write(response.getOutputStream());
 			workbook.close();
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
+
 	}
 
 }
