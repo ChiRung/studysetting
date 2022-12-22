@@ -11,8 +11,7 @@ public class ExceptionAdvice {
   // @ModelAttribute
   @ExceptionHandler(NoSuchElementException.class)
   public String invailedArgumentsHandler() {
-    // System.out.println("실행실행");
-    // redirect.addFlashAttribute("ExceptionMessage", "잘가요");
+    // redirect.addFlashAttribute("ExceptionMessage", "값 입력 오류");
     return "redirect:/";
   }
 }
